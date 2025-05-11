@@ -1,23 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Edit Student</h2>
-<form method="post" enctype="multipart/form-data" class="mb-4">
-    <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ student.name }}" required>
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="page-title mb-4">Edit Student</h2>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ student.name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Roll No</label>
+                            <input type="text" name="roll_no" class="form-control" value="{{ student.roll_no }}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Course Name</label>
+                            <input type="text" name="course_name" class="form-control" value="{{ student.course_name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Batch Year</label>
+                            <input type="number" name="batch_year" class="form-control" value="{{ student.batch_year }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">CV (PDF only, leave empty to keep current)</label>
+                        <input type="file" name="cv" class="form-control" accept=".pdf">
+                        {% if student.cv_filename %}
+                        <div class="mt-2">
+                            <small class="text-muted">Current CV: 
+                                <a href="{{ url_for('static', filename='uploads/' + student.cv_filename) }}" 
+                                   target="_blank" class="text-primary">{{ student.cv_filename }}</a>
+                            </small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Update Student</button>
+                        <a href="{{ url_for('admin') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="gpa" class="form-label">GPA</label>
-        <input type="number" step="0.01" class="form-control" id="gpa" name="gpa" value="{{ student.gpa }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="cv" class="form-label">CV (PDF only, leave empty to keep current)</label>
-        <input type="file" class="form-control" id="cv" name="cv" accept=".pdf">
-        {% if student.cv_filename %}
-        <small class="text-muted">Current CV: {{ student.cv_filename }}</small>
-        {% endif %}
-    </div>
-    <button type="submit" class="btn btn-primary">Update Student</button>
-    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 {% endblock %}

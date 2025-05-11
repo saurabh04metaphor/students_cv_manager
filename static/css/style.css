@@ -1,0 +1,152 @@
+:root {
+    --nielit-blue: #003380;
+    --nielit-blue-light: #1a4b98;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+body {
+    background-color: var(--light-gray);
+    color: #333;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--nielit-blue);
+}
+
+.nielit-logo {
+    height: 80px;
+    margin-right: 20px;
+}
+
+.site-heading {
+    margin: 0;
+    color: var(--nielit-blue);
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.page-title {
+    color: var(--nielit-blue);
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--nielit-blue);
+    border-color: var(--nielit-blue);
+}
+
+.btn-primary:hover {
+    background-color: var(--nielit-blue-light);
+    border-color: var(--nielit-blue-light);
+}
+
+.btn-outline-primary {
+    color: var(--nielit-blue);
+    border-color: var(--nielit-blue);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--nielit-blue);
+    border-color: var(--nielit-blue);
+    color: white;
+}
+
+/* Table styles */
+.table {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: var(--nielit-blue);
+    color: white;
+}
+
+.table th {
+    font-weight: 500;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Form and alert styles */
+.form-control:focus {
+    border-color: var(--nielit-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 51, 128, 0.25);
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.card {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .nielit-logo {
+        height: 60px;
+    }
+    
+    .site-heading {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-section {
+        flex-direction: column;
+    }
+    
+    .nav-section .btn {
+        width: 100%;
+        margin: 0.25rem 0;
+    }
+    
+    .header-container {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    
+    .nielit-logo {
+        height: 60px;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}

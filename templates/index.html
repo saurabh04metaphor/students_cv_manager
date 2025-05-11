@@ -1,34 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Student Records</h2>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="alert alert-info">
-            {{ messages[0] }}
+<div class="card shadow-sm">
+    <div class="card-body p-3 p-md-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+            <h2 class="page-title mb-3 mb-md-0">Student Records</h2>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScr0BQ-IYKCYKpptKGPdquAU1JNCdN6g5skhfF4qBCQBWvxMw/viewform" 
+               class="btn btn-success" 
+               target="_blank">
+                Fill this Google Form to Submit Your CV
+            </a>
         </div>
-    {% endif %}
-{% endwith %}
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>GPA</th>
-            <th>CV</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.name }}</td>
-            <td>{{ student.gpa }}</td>
-            <td>
-                <a href="{{ url_for('static', filename='uploads/' + student.cv_filename) }}" 
-                   class="btn btn-sm btn-outline-primary" target="_blank">
-                    View CV
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info alert-dismissible fade show">
+                    {{ messages[0] }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="d-none d-md-table-cell">Name</th>
+                        <th scope="col">Roll No</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Course Name</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Batch Year</th>
+                        <th scope="col">CV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="d-none d-md-table-cell">{{ student.name }}</td>
+                        <td>{{ student.roll_no }}</td>
+                        <td class="d-none d-lg-table-cell">{{ student.course_name }}</td>
+                        <td class="d-none d-sm-table-cell">{{ student.batch_year }}</td>
+                        <td>
+                            <a href="{{ url_for('static', filename='uploads/' + student.cv_filename) }}" 
+                               class="btn btn-sm btn-outline-primary w-100 w-sm-auto" 
+                               target="_blank">
+                               <span class="d-none d-sm-inline">View</span> CV
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile view for hidden columns -->
+        <div class="d-md-none mt-3">
+            {% for student in students %}
+            <div class="card mb-2">
+                <div class="card-body p-3">
+                    <h6 class="card-subtitle mb-2 text-muted">Roll No: {{ student.roll_no }}</h6>
+                    <h5 class="card-title">{{ student.name }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Course: {{ student.course_name }}<br>
+                            Batch: {{ student.batch_year }}
+                        </small>
+                    </p>
+                    <a href="{{ url_for('static', filename='uploads/' + student.cv_filename) }}" 
+                       class="btn btn-sm btn-outline-primary w-100" 
+                       target="_blank">View CV</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

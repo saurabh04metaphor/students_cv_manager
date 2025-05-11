@@ -14,7 +14,9 @@ db = SQLAlchemy(app)
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    gpa = db.Column(db.Float)
+    roll_no = db.Column(db.String(50))
+    course_name = db.Column(db.String(100))
+    batch_year = db.Column(db.Integer)
     cv_filename = db.Column(db.String(200))
 
 class User(db.Model):
@@ -25,18 +27,22 @@ class User(db.Model):
 # Create tables
 with app.app_context():
     db.create_all()
-    # Create admin user if it doesn't exist
+    # Get or update admin user
     admin_user = User.query.filter_by(username='admin').first()
+    new_password = 'Adm!n2023@Secure#'  # Replace with your desired new password
+    
     if not admin_user:
         admin_user = User(
             username='admin',
-            password=generate_password_hash('admin123')
+            password=generate_password_hash(new_password)
         )
         db.session.add(admin_user)
         db.session.commit()
         print('Admin user created successfully!')
     else:
-        print('Admin user already exists!')
+        admin_user.password = generate_password_hash(new_password)
+        db.session.commit()
+        print('Admin password updated successfully!')
 
 # Auth decorator
 def login_required(f):
@@ -76,26 +82,35 @@ def logout():
 def admin():
     if request.method == 'POST':
         name = request.form['name']
-        gpa = float(request.form['gpa'])
+        roll_no = request.form['roll_no']
+        course_name = request.form['course_name']
+        batch_year = int(request.form['batch_year'])
         cv = request.files['cv']
         if cv and cv.filename.endswith('.pdf'):
             filename = secure_filename(cv.filename)
             cv.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            new_student = Student(name=name, gpa=gpa, cv_filename=filename)
+            new_student = Student(
+                name=name, 
+                roll_no=roll_no,
+                course_name=course_name,
+                batch_year=batch_year,
+                cv_filename=filename
+            )
             db.session.add(new_student)
             db.session.commit()
             flash('Student added!')
     students = Student.query.all()
     return render_template('admin.html', students=students)
 
-# Add this after the admin route
 @login_required
 @app.route('/edit_student/<int:id>', methods=['GET', 'POST'])
 def edit_student(id):
     student = Student.query.get_or_404(id)
     if request.method == 'POST':
         student.name = request.form['name']
-        student.gpa = float(request.form['gpa'])
+        student.roll_no = request.form['roll_no']
+        student.course_name = request.form['course_name']
+        student.batch_year = int(request.form['batch_year'])
         
         # Handle new CV file if uploaded
         if 'cv' in request.files:
